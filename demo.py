@@ -37,19 +37,27 @@ if __name__ == '__main__':
     highgui.cvNamedWindow ('Blob View', highgui.CV_WINDOW_AUTOSIZE)
 
 
-    capture = highgui.cvCreateCameraCapture ( highgui.CV_CAP_ANY )
+    import sys
 
-    # set the wanted image size from the camera
-    highgui.cvSetCaptureProperty (capture,
-                              highgui.CV_CAP_PROP_FRAME_WIDTH, 320)
-    highgui.cvSetCaptureProperty (capture,
-                              highgui.CV_CAP_PROP_FRAME_HEIGHT,240)
+    try:
+        # try to get the device number from the command line
+        device = int (sys.argv [1])
 
+        # got it ! so remove it from the arguments
+        del sys.argv [1]
+    except (IndexError, ValueError):
+        # no device number on the command line, assume we want the 1st device
+        device = highgui.CV_CAP_ANY
 
-    # check that capture device is OK
-    if not capture:
-        print "Error opening capture device"
-        sys.exit (1)
+    if len (sys.argv) == 1:
+        # no argument on the command line, try to use the camera
+        capture = highgui.cvCreateCameraCapture (device)
+
+        # set the wanted image size from the camera
+        highgui.cvSetCaptureProperty (capture,
+                                      highgui.CV_CAP_PROP_FRAME_WIDTH, 320)
+        highgui.cvSetCaptureProperty (capture,
+                                      highgui.CV_CAP_PROP_FRAME_HEIGHT,240)
 
 
     # capture the 1st frame to get some propertie on it
