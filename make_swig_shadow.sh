@@ -11,6 +11,11 @@ else
 	gcc -c BlobResult.cpp BlobResult_wrap.cxx BlobExtraction.cpp Blob.cpp Blob_wrap.cxx -I/usr/include/python2.5 `pkg-config --cflags opencv`
 fi
 
-ld -shared Blob.o Blob_wrap.o -o _Blob.so `pkg-config --libs opencv`
-ld -shared BlobResult.o BlobResult_wrap.o BlobExtraction.o Blob.o -o _BlobResult.so `pkg-config --libs opencv`
+mkdir blobs
 
+ld -shared Blob.o Blob_wrap.o -o blobs/_Blob.so `pkg-config --libs opencv`
+ld -shared BlobResult.o BlobResult_wrap.o BlobExtraction.o Blob.o -o blobs/_BlobResult.so `pkg-config --libs opencv`
+
+touch blobs/__init__.py
+mv Blob.py blobs
+mv BlobResult.py blobs
