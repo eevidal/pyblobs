@@ -3,6 +3,9 @@
 from opencv import cv
 from opencv import highgui
 
+from blobs.BlobResult import CBlobResult
+from blobs.Blob import CBlob	# Note: This must be imported in order to destroy blobs and use other methods
+
 #############################################################################
 # some useful functions
 
@@ -92,13 +95,12 @@ if __name__ == '__main__':
 		# Convert black-and-white version back into three-color representation
 		cv.cvCvtColor(my_grayscale, frame, cv.CV_GRAY2RGB);
 
-	from BlobResult import CBlobResult
+
 	myblobs = CBlobResult(my_grayscale, mask, 100, True)
 
 	myblobs.filter_blobs(10, 10000)
 	blob_count = myblobs.GetNumBlobs()
 
-	from Blob import CBlob	# Note: This must be imported in order to destroy blobs and use other methods
 	for i in range(blob_count):
 
 		my_enumerated_blob = myblobs.GetBlob(i)
