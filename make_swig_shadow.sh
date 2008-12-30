@@ -1,5 +1,14 @@
 #!/bin/bash
 
+echo -n "Should I install the prerequisites for you? [y/N] "
+read character
+case $character in
+    [Yy] )
+	sudo apt-get install swig python-dev libcv-dev
+        ;;
+    * )
+esac
+
 swig -c++ -python -shadow BlobResult.i
 swig -c++ -python -shadow Blob.i
 
@@ -19,3 +28,5 @@ ld -shared BlobResult.o BlobResult_wrap.o BlobExtraction.o Blob.o -o blobs/_Blob
 touch blobs/__init__.py
 mv Blob.py blobs
 mv BlobResult.py blobs
+
+echo "Done."
